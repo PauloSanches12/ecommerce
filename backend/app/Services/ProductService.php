@@ -37,7 +37,7 @@ class ProductService
 
     public function createProduct(Request $request): object
     {
-        $data = $request->only(['name', 'description', 'price', 'category_id']);
+        $data = $request->only(['name', 'description', 'image_url', 'price', 'category_id']);
         return $this->productRepository->create($data);
     }
 }
