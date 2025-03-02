@@ -28,7 +28,7 @@ class CategoryService
 
     public function updateCategory(Request $request, int $id): ?object
     {
-        $data = $request->only(['name', 'description']);
+        $data = $request->only(['name']);
         return $this->categoryRepository->update($data, $id);
     }
 
