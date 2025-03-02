@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// Cria uma instância do Axios com as configurações padrão
 const api = axios.create({
-    baseURL: 'http://127.0.0.1:8000/', // Substitua pela URL base da sua API
+    baseURL: 'http://127.0.0.1:8000/',
     headers: {
         'Content-Type': 'application/json',
     },
