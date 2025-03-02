@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Services\CategoryService;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CategoryController extends Controller
 {
@@ -16,28 +17,22 @@ class CategoryController extends Controller
 
     public function index()
     {
-        return response()->json($this->categoryService->getAllCategories());
+        try {
+            return response()->json($this->categoryService->getAllCategories());
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
         try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-            ]);
+            $request->validated();
 
             $category = $this->categoryService->createCategory($request);
-            return response()->json($category, 201);
+            return response()->json($category, Response::HTTP_CREATED);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        // ]);
-
-        // $category = $this->categoryService->createCategory($request);
-        // return response()->json($category, 201);
     }
 }
