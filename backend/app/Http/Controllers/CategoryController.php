@@ -18,6 +18,11 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
+    /**
+     * Get all categories
+     *
+     * @return ProductResource|JsonResponse
+     */
     public function index(): CategoryCollection | JsonResponse
     {
         try {
@@ -28,7 +33,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function store(CategoryRequest $request): CategoryResource | JsonResponse
+    /**
+     * Create a category
+     *
+     * @param CategoryRequest $request
+     * @return CategoryResource|JsonResponse
+     */
+    public function store(CategoryRequest $request): CategoryResource|JsonResponse
     {
         try {
             $request->validated();
@@ -40,7 +51,14 @@ class CategoryController extends Controller
         }
     }
 
-    public function update(CategoryRequest $request, int $id): CategoryResource | JsonResponse
+    /**
+     * Get a category by id
+     *
+     * @param CategoryRequest $request
+     * @param integer $id
+     * @return CategoryResource|JsonResponse
+     */
+    public function update(CategoryRequest $request, int $id): CategoryResource|JsonResponse
     {
         try {
             $request->validated();
@@ -56,6 +74,12 @@ class CategoryController extends Controller
         }
     }
 
+    /**
+     * Delete a category
+     *
+     * @param integer $id
+     * @return JsonResponse
+     */
     public function destroy(int $id): JsonResponse
     {
         try {

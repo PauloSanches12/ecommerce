@@ -20,9 +20,12 @@ class ProductController extends Controller
     }
 
     /**
+     * Get all products
+     *
+     * @param Request $request
      * @return ProductCollection|JsonResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): ProductCollection|JsonResponse
     {
         try {
             $perPage = 10;
@@ -45,10 +48,12 @@ class ProductController extends Controller
     }
 
     /**
+     * Get a product by id 
+     * 
      * @param int $id
      * @return ProductResource|JsonResponse
      */
-    public function show(int $id)
+    public function show(int $id): ProductResource|JsonResponse
     {
         try {
             $product = $this->productService->getProductById($id);
@@ -64,10 +69,12 @@ class ProductController extends Controller
     }
 
     /**
+     * Create a product
+     * 
      * @param ProductRequest $request
      * @return ProductResource|JsonResponse
      */
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request): ProductResource|JsonResponse
     {
         try {
             $request->validated();
@@ -81,11 +88,13 @@ class ProductController extends Controller
     }
 
     /**
+     * Update a product
+     * 
      * @param ProductRequest $request
      * @param int $id
      * @return ProductResource|JsonResponse
      */
-    public function update(ProductRequest $request, int $id)
+    public function update(ProductRequest $request, int $id): ProductResource|JsonResponse
     {
         try {
             $request->validated();
@@ -102,6 +111,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Delete a product
+     * 
      * @param int $id
      * @return JsonResponse
      */
