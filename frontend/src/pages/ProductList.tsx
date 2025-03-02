@@ -20,18 +20,30 @@ const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [searchQuery, setSearchQuery] = useState(""); // 🔹 Estado para pesquis
     const [meta, setMeta] = useState<Meta | null>(null);
     const [links, setLinks] = useState<PaginationLinks | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Fetch produtos com paginação
-    useEffect(() => {
-        api.get(`/api/products?page=${currentPage}`).then((response) => {
+    // 🔹 Função para buscar produtos com filtros
+    const fetchProducts = () => {
+        const params = new URLSearchParams();
+        params.append("page", currentPage.toString());
+
+        if (searchQuery) params.append("search", searchQuery);
+        if (selectedCategory) params.append("category_id", selectedCategory);
+
+        api.get(`/api/products?${params.toString()}`).then((response) => {
             setProducts(response.data.data);
             setMeta(response.data.meta);
             setLinks(response.data.links);
         });
-    }, [currentPage]);
+    };
+
+    // 🔹 Atualiza produtos quando a página ou a pesquisa mudam
+    useEffect(() => {
+        fetchProducts();
+    }, [currentPage, searchQuery, selectedCategory]);
 
     // Fetch categorias
     useEffect(() => {
@@ -47,6 +59,18 @@ const ProductList = () => {
 
     return (
         <div className="container mx-auto p-4">
+            
+            {/* 🔍 CAMPO DE PESQUISA */}
+            <div className="mb-4">
+                <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Pesquisar produto por nome ou descrição..."
+                    className="border p-2 w-full"
+                />
+            </div>
+
             {/* FILTRO POR CATEGORIA */}
             <div className="mb-4">
                 <select
