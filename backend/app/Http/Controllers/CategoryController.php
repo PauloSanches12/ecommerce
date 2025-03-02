@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategoryCollection;
 use App\Services\CategoryService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
 class CategoryController extends Controller
@@ -15,28 +18,29 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(): CategoryCollection | JsonResponse
     {
         try {
-            return response()->json($this->categoryService->getAllCategories());
+            $categories = $this->categoryService->getAllCategories();
+            return new CategoryCollection($categories);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): CategoryResource | JsonResponse
     {
         try {
             $request->validated();
 
             $category = $this->categoryService->createCategory($request);
-            return response()->json($category, Response::HTTP_CREATED);
+            return new CategoryResource($category);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function update(CategoryRequest $request, $id)
+    public function update(CategoryRequest $request, int $id): CategoryResource | JsonResponse
     {
         try {
             $request->validated();
@@ -46,13 +50,13 @@ class CategoryController extends Controller
                 return response()->json(['error' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
             }
 
-            return response()->json($category);
+            return new CategoryResource($category);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         try {
             $deleted = $this->categoryService->deleteCategory($id);

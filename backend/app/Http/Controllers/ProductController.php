@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\ProductCollection;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
@@ -16,57 +19,75 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
+    /**
+     * @return ProductCollection|JsonResponse
+     */
     public function index(Request $request)
     {
         try {
             $perPage = 10;
 
             if ($request->has('category')) {
-                return response()->json($this->productService->getProductsByCategory($request->category, $perPage));
+                $products = $this->productService->getProductsByCategory($request->category, $perPage);
+                return new ProductCollection($products);
             }
 
             if ($request->has('search')) {
-                return response()->json($this->productService->searchProducts($request->search, $perPage));
+                $products = $this->productService->searchProducts($request->search, $perPage);
+                return new ProductCollection($products);
             }
 
-            return response()->json($this->productService->getAllProducts($perPage));
+            $products = $this->productService->getAllProducts($perPage);
+            return new ProductCollection($products);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * @param int $id
+     * @return ProductResource|JsonResponse
+     */
     public function show(int $id)
     {
         try {
             $product = $this->productService->getProductById($id);
-            
+
             if (!$product) {
                 return response()->json(['message' => 'Produto não encontrado'], Response::HTTP_NOT_FOUND);
             }
-            
-            return response()->json($product);
+
+            return new ProductResource($product);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**
+     * @param ProductRequest $request
+     * @return ProductResource|JsonResponse
+     */
     public function store(ProductRequest $request)
     {
         try {
             $request->validated();
-  
+
             $product = $this->productService->createProduct($request);
 
-            return response()->json($product, Response::HTTP_CREATED);
+            return new ProductResource($product);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function update(ProductRequest $request, $id)
+    /**
+     * @param ProductRequest $request
+     * @param int $id
+     * @return ProductResource|JsonResponse
+     */
+    public function update(ProductRequest $request, int $id)
     {
         try {
-            
             $request->validated();
 
             $product = $this->productService->updateProduct($request, $id);
@@ -74,13 +95,17 @@ class ProductController extends Controller
                 return response()->json(['error' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
             }
 
-            return response()->json($product);
+            return new ProductResource($product);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function destroy($id)
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy(int $id): JsonResponse
     {
         try {
             $deleted = $this->productService->deleteProduct($id);
