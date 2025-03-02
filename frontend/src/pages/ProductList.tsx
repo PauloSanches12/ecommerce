@@ -88,17 +88,17 @@ const ProductList = () => {
             </div>
 
             {/* LISTA DE PRODUTOS */}
-            <div>
+            <div className="flex flex-wrap gap-4">
                 {filteredProducts.length === 0 ? (
                     <p className="text-gray-500">Nenhum produto encontrado.</p>
                 ) : (
                     filteredProducts.map((product) => (
-                        <div key={product.id} className="mb-4 p-4 border rounded">
+                        <div key={product.id} className="mb-4 p-4 border rounded max-w-xs">
                             {product.image_url && (
                                 <img
                                     src={product.image_url}
                                     alt={product.name}
-                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                    // style={{ maxWidth: '200px', maxHeight: '200px' }}
                                 />
                             )}
                             <Link to={`/products/${product.id}`} className="text-blue-500 text-lg font-semibold">
@@ -111,6 +111,7 @@ const ProductList = () => {
                     ))
                 )}
             </div>
+
 
             {/* CONTROLES DE PAGINAÇÃO */}
             {meta && (
