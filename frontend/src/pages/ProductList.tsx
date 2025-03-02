@@ -2,7 +2,19 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../axiosClient";
 import { Product, Category } from "../interfaces/product";
-import { Meta, PaginationLinks } from "../interfaces/common";
+
+interface Meta {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+}
+
+interface PaginationLinks {
+    first: string | null;
+    last: string | null;
+    prev: string | null;
+    next: string | null;
+}
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -57,10 +69,13 @@ const ProductList = () => {
                     <p className="text-gray-500">Nenhum produto encontrado.</p>
                 ) : (
                     filteredProducts.map((product) => (
-                        <div key={product.id} className="mb-4">
-                            <Link to={`/products/${product.id}`} className="text-blue-500">
+                        <div key={product.id} className="mb-4 p-4 border rounded">
+                            <Link to={`/products/${product.id}`} className="text-blue-500 text-lg font-semibold">
                                 {product.name}
                             </Link>
+                            <p className="text-gray-600">
+                                {product.description}
+                            </p>
                         </div>
                     ))
                 )}
