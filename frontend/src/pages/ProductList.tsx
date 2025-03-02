@@ -67,7 +67,7 @@ const ProductList = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Pesquisar produto por nome ou descrição..."
-                    className="border p-2 w-full"
+                    className="border p-2 w-full rounded"
                 />
             </div>
 
@@ -76,7 +76,7 @@ const ProductList = () => {
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="border p-2"
+                    className="border p-2 rounded"
                 >
                     <option value="">Todas as Categorias</option>
                     {categories.map((category) => (
@@ -86,6 +86,7 @@ const ProductList = () => {
                     ))}
                 </select>
             </div>
+
 
             {/* LISTA DE PRODUTOS */}
             <div className="flex flex-wrap gap-4">
