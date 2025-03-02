@@ -38,7 +38,13 @@ class ProductController extends Controller
     public function show(int $id)
     {
         try {
-            return response()->json($this->productService->getProductById($id));
+            $product = $this->productService->getProductById($id);
+            
+            if (!$product) {
+                return response()->json(['message' => 'Produto não encontrado'], Response::HTTP_NOT_FOUND);
+            }
+            
+            return response()->json($product);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -50,6 +56,7 @@ class ProductController extends Controller
             $request->validated();
   
             $product = $this->productService->createProduct($request);
+            
             return response()->json($product, Response::HTTP_CREATED);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
