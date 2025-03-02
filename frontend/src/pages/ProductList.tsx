@@ -2,37 +2,29 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../axiosClient";
 import { Product, Category } from "../interfaces/product";
-
-interface Meta {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-}
-
-interface PaginationLinks {
-    first: string | null;
-    last: string | null;
-    prev: string | null;
-    next: string | null;
-}
+import { Meta, PaginationLinks } from "../interfaces/pagination";
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [searchQuery, setSearchQuery] = useState(""); // 🔹 Estado para pesquis
+    const [searchQuery, setSearchQuery] = useState("");
     const [meta, setMeta] = useState<Meta | null>(null);
     const [links, setLinks] = useState<PaginationLinks | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
 
     // 🔹 Função para buscar produtos com filtros
     const fetchProducts = () => {
+        // Cria um objeto URLSearchParams para enviar os parâmetros de busca
         const params = new URLSearchParams();
         params.append("page", currentPage.toString());
 
+
+        // Adiciona os filtros de pesquisa e categoria
         if (searchQuery) params.append("search", searchQuery);
         if (selectedCategory) params.append("category_id", selectedCategory);
 
+        // Faz a requisição para a API
         api.get(`/api/products?${params.toString()}`).then((response) => {
             setProducts(response.data.data);
             setMeta(response.data.meta);
@@ -60,7 +52,7 @@ const ProductList = () => {
     return (
         <div className="container mx-auto p-4">
             
-            {/* 🔍 CAMPO DE PESQUISA */}
+            {/* CAMPO DE PESQUISA */}
             <div className="mb-4">
                 <input
                     type="text"
@@ -99,7 +91,6 @@ const ProductList = () => {
                                 <img
                                     src={product.image_url}
                                     alt={product.name}
-                                    // style={{ maxWidth: '200px', maxHeight: '200px' }}
                                 />
                             )}
                             <Link to={`/products/${product.id}`} className="text-blue-500 text-lg font-semibold">
