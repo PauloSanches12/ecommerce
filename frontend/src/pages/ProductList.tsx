@@ -1,24 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../axiosClient';
-
-interface Category {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-}
-
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-    image_url: string | null;
-    category: Category;
-    created_at: string;
-    updated_at: string;
-}
+import { Product, Category } from '../interfaces/product';
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);

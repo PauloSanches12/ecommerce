@@ -1,24 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../axiosClient';
-
-interface Category {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-}
-
-interface Product {
-    id: number;
-    name: string;
-    description: string;
-    price: string;
-    image_url: string | null;
-    category: Category;
-    created_at: string;
-    updated_at: string;
-}
+import { Product } from '../interfaces/product';
 
 const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
