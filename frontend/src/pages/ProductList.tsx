@@ -94,6 +94,13 @@ const ProductList = () => {
                 ) : (
                     filteredProducts.map((product) => (
                         <div key={product.id} className="mb-4 p-4 border rounded">
+                            {product.image_url && (
+                                <img
+                                    src={product.image_url}
+                                    alt={product.name}
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            )}
                             <Link to={`/products/${product.id}`} className="text-blue-500 text-lg font-semibold">
                                 {product.name}
                             </Link>
