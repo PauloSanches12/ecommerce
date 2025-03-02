@@ -21,11 +21,17 @@ class AuthService
      *
      * @param  array  $data
      * @return \App\Models\User
+     * @throws \Exception
      */
     public function register(array $data): User
     {
-        $data['password'] = Hash::make($data['password']);
-        return $this->userRepository->create($data);
+        try {
+            $data['password'] = Hash::make($data['password']);
+
+            return $this->userRepository->create($data);
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao registrar o usuário: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -37,15 +43,19 @@ class AuthService
      */
     public function login(array $data): string
     {
-        $user = $this->userRepository->findByEmail($data['email']);
+        try {
+            $user = $this->userRepository->findByEmail($data['email']);
 
-        if (! $user || ! Hash::check($data['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estão incorretas.'],
-            ]);
+            if (! $user || ! Hash::check($data['password'], $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['As credenciais fornecidas estão incorretas.'],
+                ]);
+            }
+
+            return $user->createToken('auth_token')->plainTextToken;
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao fazer login: ' . $e->getMessage());
         }
-
-        return $user->createToken('auth_token')->plainTextToken;
     }
 
     /**
@@ -53,9 +63,14 @@ class AuthService
      *
      * @param  \App\Models\User  $user
      * @return void
+     * @throws \Exception
      */
     public function logout(User $user): void
     {
-        $user->tokens()->delete();
+        try {
+            $user->tokens()->delete();
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao fazer logout: ' . $e->getMessage());
+        }
     }
 }
