@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -43,16 +44,10 @@ class ProductController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'required|string',
-                'image_url' => 'required|url',
-                'price' => 'required|numeric',
-                'category_id' => 'required|exists:categories,id',
-            ]);
+            $request->validated();
   
             $product = $this->productService->createProduct($request);
             return response()->json($product, Response::HTTP_CREATED);
