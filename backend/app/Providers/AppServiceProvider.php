@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Interfaces\CategoryRepositoryInterface::class,
             \App\Repositories\CategoryRepository::class
         );
+
+        $this->app->bind(
+            \App\Interfaces\UserRepositoryInterface::class,
+            \App\Repositories\UserRepository::class
+        );
     }
 
     /**
