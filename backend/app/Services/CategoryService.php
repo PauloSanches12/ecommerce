@@ -15,25 +15,65 @@ class CategoryService
         $this->categoryRepository = $categoryRepository;
     }
 
+    /**
+     * Get all categories
+     *
+     * @return Collection
+     */
     public function getAllCategories(): Collection
     {
-        return $this->categoryRepository->all();
+        try {
+            return $this->categoryRepository->all();
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Create a category
+     *
+     * @param Request $request
+     * @return object
+     */
     public function createCategory(Request $request): object
     {
-        $data = $request->only(['name']);
-        return $this->categoryRepository->create($data);
+        try {
+            $data = $request->only(['name']);
+            return $this->categoryRepository->create($data);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Update a category
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return object|null
+     */
     public function updateCategory(Request $request, int $id): ?object
     {
-        $data = $request->only(['name']);
-        return $this->categoryRepository->update($data, $id);
+        try {
+            $data = $request->only(['name']);
+            return $this->categoryRepository->update($data, $id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 
+    /**
+     * Delete a category
+     *
+     * @param integer $id
+     * @return boolean
+     */
     public function deleteCategory(int $id): bool
     {
-        return $this->categoryRepository->delete($id);
+        try {
+            return $this->categoryRepository->delete($id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
     }
 }
