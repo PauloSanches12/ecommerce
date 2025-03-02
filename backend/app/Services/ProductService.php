@@ -40,4 +40,15 @@ class ProductService
         $data = $request->only(['name', 'description', 'image_url', 'price', 'category_id']);
         return $this->productRepository->create($data);
     }
+
+    public function updateProduct(Request $request, int $id): ?object
+    {
+        $data = $request->only(['name', 'description', 'price', 'image_url', 'category_id']);
+        return $this->productRepository->update($data, $id);
+    }
+
+    public function deleteProduct(int $id): bool
+    {
+        return $this->productRepository->delete($id);
+    }
 }

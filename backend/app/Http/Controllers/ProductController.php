@@ -56,8 +56,39 @@ class ProductController extends Controller
             $request->validated();
   
             $product = $this->productService->createProduct($request);
-            
+
             return response()->json($product, Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function update(ProductRequest $request, $id)
+    {
+        try {
+            
+            $request->validated();
+
+            $product = $this->productService->updateProduct($request, $id);
+            if (!$product) {
+                return response()->json(['error' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->json($product);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $deleted = $this->productService->deleteProduct($id);
+            if (!$deleted) {
+                return response()->json(['error' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->json(null, Response::HTTP_NO_CONTENT);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }

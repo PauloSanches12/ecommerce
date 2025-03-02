@@ -24,8 +24,7 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
+            'name' => 'required|string|max:100',
             'image_url' => 'required|url',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
@@ -38,7 +37,7 @@ class ProductRequest extends FormRequest
         return [
             'name.required' => 'O campo name é obrigatório.',
             'name.string' => 'O campo name deve ser uma string.',
-            'name.max' => 'O campo name não deve exceder 255 caracteres.',
+            'name.max' => 'O campo name não deve exceder 100 caracteres.',
             'description.required' => 'O campo description é obrigatório.',
             'description.string' => 'O campo description deve ser uma string.',
             'image_url.required' => 'O campo image_url é obrigatório.',

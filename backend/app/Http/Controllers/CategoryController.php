@@ -35,4 +35,34 @@ class CategoryController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function update(CategoryRequest $request, $id)
+    {
+        try {
+            $request->validated();
+
+            $category = $this->categoryService->updateCategory($request, $id);
+            if (!$category) {
+                return response()->json(['error' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->json($category);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $deleted = $this->categoryService->deleteCategory($id);
+            if (!$deleted) {
+                return response()->json(['error' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
+            }
+
+            return response()->json(null, Response::HTTP_NO_CONTENT);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -17,4 +17,23 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::create($data);
     }
+
+    public function update(array $data, int $id): ?object
+    {
+        $category = Category::find($id);
+        if ($category) {
+            $category->update($data);
+            return $category;
+        }
+        return null;
+    }
+
+    public function delete(int $id): bool
+    {
+        $category = Category::find($id);
+        if ($category) {
+            return $category->delete();
+        }
+        return false;
+    }
 }

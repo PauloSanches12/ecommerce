@@ -20,6 +20,10 @@ class Product extends Model
         'updated_at' => 'date:d/m/Y',
     ];
 
+    protected $hidden = [
+        'category_id',
+    ];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
