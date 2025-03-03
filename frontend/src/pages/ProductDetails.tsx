@@ -1,16 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import api from '../services/axiosClient';
 import { Product } from '../interfaces/product';
-import { useNavigate } from 'react-router-dom';
-import Button from '../components/Button';
 
 const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         // Função para buscar um produto pelo ID
@@ -35,8 +32,13 @@ const ProductDetails = () => {
 
     return (
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
-            <div className="w-full text-left">
-                <Button onClick={() => navigate(-1)}>Voltar</Button>
+            <div className="mb-6 w-full text-left">
+                <Link
+                    to="/products"
+                    className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer'
+                >
+                    Voltar
+                </Link>
             </div>
             <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
             {product.image_url && (

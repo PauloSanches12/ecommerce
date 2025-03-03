@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../services/axiosClient';
 import { AuthContext } from '../contexts/AuthContext';
 import Button from '../components/Button';
@@ -45,8 +45,14 @@ const AddProduct = () => {
     return (
         <div className="container mx-auto p-4">
             {/* Botão de Voltar */}
-            <Button onClick={() => navigate(-1)}>Voltar</Button>
-            
+            <div className='mb-6'>
+                <Link
+                    to="/products"
+                    className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer'
+                >
+                    Voltar
+                </Link>
+            </div>
             <h1 className="text-2xl mb-4">Adicionar Produto</h1>
             {error && <p className="text-red-500">{error}</p>}
             <form onSubmit={handleSubmit}>
@@ -102,9 +108,9 @@ const AddProduct = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 text-white p-2 w-full cursor-pointer">
+                <Button type="submit" className="bg-blue-500 text-white p-2 w-full cursor-pointer">
                     Cadastrar Produto
-                </button>
+                </Button>
             </form>
         </div>
     );
