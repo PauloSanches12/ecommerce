@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './routes/PrivateRoute';
+import AddProduct from './pages/AddProduct';
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
             <Route
               path="/products/:id"
               element={<PrivateRoute element={<ProductDetails />} />}
+            />
+            <Route
+              path="/add-product"
+              element={<PrivateRoute element={<AddProduct />} />}
             />
           </Routes>
         </div>
