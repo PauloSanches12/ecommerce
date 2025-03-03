@@ -4,7 +4,14 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const PrivateRoute = ({ element }: { element: JSX.Element }) => {
     const { authToken } = useContext(AuthContext);
-    return authToken ? element : <Navigate to="/login" />;
+
+    if (!authToken) {
+        // Se não estiver autenticado, redireciona para a página de login
+        return <Navigate to="/login" replace />;
+    }
+
+    // Se estiver autenticado, renderiza o componente protegido
+    return element;
 };
 
 export default PrivateRoute;
