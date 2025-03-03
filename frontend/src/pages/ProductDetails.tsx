@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../services/axiosClient';
 import { Product } from '../interfaces/product';
+import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 
 const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Função para buscar um produto pelo ID
@@ -32,6 +35,9 @@ const ProductDetails = () => {
 
     return (
         <div className="container mx-auto p-4 flex flex-col items-center justify-center">
+            <div className="w-full text-left">
+                <Button onClick={() => navigate(-1)}>Voltar</Button>
+            </div>
             <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
             {product.image_url && (
                 <img 
