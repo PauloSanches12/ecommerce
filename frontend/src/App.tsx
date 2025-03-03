@@ -26,11 +26,6 @@ function App() {
               path="/products/:id"
               element={<PrivateRoute element={<ProductDetails />} />}
             />
-
-            <Route
-              path="/dashboard"
-              element={<PrivateRoute element={<h1>Dashboard</h1>} />}
-            />
           </Routes>
         </div>
       </Router>
