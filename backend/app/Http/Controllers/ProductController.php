@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function index(Request $request): ProductCollection|JsonResponse
     {
         try {
-            $perPage = 10;
+            $perPage = 12;
 
             if ($request->has('category')) {
                 $products = $this->productService->getProductsByCategory($request->category, $perPage);
