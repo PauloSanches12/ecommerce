@@ -1,13 +1,8 @@
 import { createContext, useState, useEffect } from 'react';
 import api from '../services/axiosClient';
+import { AuthContextType } from '../interfaces/authContext';
 
-interface AuthContextType {
-    authToken: string | null;
-    user: { email: string } | null;
-    setAuthToken: (token: string | null, user: { email: string } | null) => void;
-    logout: () => void;
-}
-
+// Criação do contexto AuthContext
 export const AuthContext = createContext<AuthContextType>({
     authToken: null,
     user: null,
@@ -15,6 +10,7 @@ export const AuthContext = createContext<AuthContextType>({
     logout: () => { },
 });
 
+// Criação do componente AuthProvider
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [authToken, setAuthTokenState] = useState<string | null>(
         localStorage.getItem('authToken')
@@ -31,6 +27,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [authToken]);
 
+    // Função para salvar o token e o email do usuário
     const setAuthToken = (token: string | null, user: { email: string } | null) => {
         setAuthTokenState(token);
         setUser(user);
@@ -43,6 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    // 🔹 Função para fazer logout
     const logout = async () => {
         try {
             await api.post('/api/logout');
