@@ -117,7 +117,7 @@ const ProductList = () => {
             {meta && (
                 <div className="flex justify-center mt-6">
                     <button
-                        className={`px-4 py-2 mr-2 border rounded ${links?.prev ? "bg-gray-200" : "bg-gray-100 cursor-not-allowed"}`}
+                        className={`px-4 py-2 mr-2 border rounded ${links?.prev ? "bg-gray-200 cursor-pointer" : "bg-gray-100 cursor-not-allowed"}`}
                         disabled={!links?.prev}
                         onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                     >
@@ -127,7 +127,7 @@ const ProductList = () => {
                         Página {meta.current_page} de {meta.last_page}
                     </span>
                     <button
-                        className={`px-4 py-2 ml-2 border rounded ${links?.next ? "bg-gray-200" : "bg-gray-100 cursor-not-allowed"}`}
+                        className={`px-4 py-2 ml-2 border rounded ${links?.next ? "bg-gray-200 cursor-pointer" : "bg-gray-100 cursor-not-allowed"}`}
                         disabled={!links?.next}
                         onClick={() => setCurrentPage((prev) => prev + 1)}
                     >
