@@ -89,7 +89,7 @@ const ProductList = () => {
             </div>
             
             {/* LISTA DE PRODUTOS */}
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 justify-center">
                 {filteredProducts.length === 0 ? (
                     <p className="text-gray-500">Nenhum produto encontrado.</p>
                 ) : (
