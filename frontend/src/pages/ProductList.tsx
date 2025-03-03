@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../axiosClient";
+import api from "../services/axiosClient";
 import { Product, Category } from "../interfaces/product";
 import { Meta, PaginationLinks } from "../interfaces/pagination";
 

@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import api from '../axiosClient';
+import api from '../services/axiosClient';
 
 interface AuthContextType {
     authToken: string | null;

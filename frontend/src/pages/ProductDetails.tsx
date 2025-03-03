@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../axiosClient';
+import api from '../services/axiosClient';
 import { Product } from '../interfaces/product';
 
 const ProductDetails = () => {
