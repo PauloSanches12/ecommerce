@@ -7,7 +7,7 @@ const PrivateRoute = ({ element }: { element: JSX.Element }) => {
 
     if (!authToken) {
         // Se não estiver autenticado, redireciona para a página de login
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/" replace />;
     }
 
     // Se estiver autenticado, renderiza o componente protegido
