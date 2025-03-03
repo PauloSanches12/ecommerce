@@ -25,9 +25,12 @@ class AuthController extends Controller
      */
     public function register(RegisterUserRequest $request)
     {
-        $user = $this->authService->register($request->validated());
-
-        return response()->json(['message' => 'Usuário registrado com sucesso', 'user' => $user], Response::HTTP_CREATED);
+        try {
+            $user = $this->authService->register($request->validated());
+            return response()->json(['message' => 'Usuário registrado com sucesso', 'user' => $user], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -39,9 +42,17 @@ class AuthController extends Controller
      */
     public function login(LoginUserRequest $request)
     {
-        $token = $this->authService->login($request->validated());
+        try {
+            $token = $this->authService->login($request->validated());
+            
+            if (!$token) {
+                return response()->json(['message' => 'Credenciais inválidas'], Response::HTTP_UNAUTHORIZED);
+            }
 
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], Response::HTTP_OK);
+            return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -52,8 +63,10 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->authService->logout($request->user());
-
-        return response()->json(['message' => 'Desconectado com sucesso'], Response::HTTP_OK);
+        try {
+            $this->authService->logout($request->user());
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

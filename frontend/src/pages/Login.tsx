@@ -14,6 +14,11 @@ const Login = () => {
         e.preventDefault();
         setError(''); // Limpa erros anteriores
 
+        if (!email || !password) {
+            setError('Por favor, preencha os campos corretamente.');
+            return;
+        }
+
         try {
             const response = await api.post('/api/login', { email, password });
 

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use App\Models\User;
 
 class AuthService
@@ -41,15 +40,13 @@ class AuthService
      * @return string
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(array $data): string
+    public function login(array $data): string|bool
     {
         try {
             $user = $this->userRepository->findByEmail($data['email']);
 
             if (! $user || ! Hash::check($data['password'], $user->password)) {
-                throw ValidationException::withMessages([
-                    'email' => ['As credenciais fornecidas estão incorretas.'],
-                ]);
+                return false;
             }
 
             return $user->createToken('auth_token')->plainTextToken;
