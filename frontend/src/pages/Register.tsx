@@ -1,27 +1,26 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import api from '../services/axiosClient';
 import { useNavigate } from 'react-router-dom';
+import Button from '../components/Button';
 
 const Register = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirmation, setPasswordConfirmation] = useState(''); // Novo estado para password_confirmation
+    const [name, setName] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        // Verifica se as senhas coincidem
         if (password !== passwordConfirmation) {
             console.error('As senhas não coincidem');
             return;
         }
 
         try {
-            // Envia a requisição de registro com todos os campos necessários
             await api.post('/api/register', { name, email, password, password_confirmation: passwordConfirmation });
-            navigate('/login');  // Redireciona para a tela de login após o registro bem-sucedido
+            navigate('/login');
         } catch (error) {
             console.error('Falha no registro', error);
         }
@@ -29,15 +28,16 @@ const Register = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl mb-4">Register</h1>
+            <h1 className="text-2xl mb-4">Novo Registro</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="block mb-2">Name</label>
+                    <label className="block mb-2">Nome</label>
                     <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="border p-2 w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
@@ -47,29 +47,32 @@ const Register = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="border p-2 w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block mb-2">Password</label>
+                    <label className="block mb-2">Senha</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="border p-2 w-full"
+                        required
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block mb-2">Confirm Password</label>
+                    <label className="block mb-2">Confirmar Senha</label>
                     <input
                         type="password"
                         value={passwordConfirmation}
                         onChange={(e) => setPasswordConfirmation(e.target.value)}
                         className="border p-2 w-full"
+                        required
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 text-white p-2">
-                    Register
-                </button>
+                <Button type="submit" className="bg-blue-500 text-white p-2 w-full cursor-pointer">
+                    Registrar
+                </Button>
             </form>
         </div>
     );
