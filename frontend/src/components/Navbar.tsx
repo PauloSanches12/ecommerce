@@ -14,23 +14,23 @@ const Navbar = () => {
     return (
         <nav className="bg-blue-500 p-4">
             <div className="container mx-auto flex justify-between">
-                <Link to="/" className="text-white text-2xl">
+                <Link to="/products" className="text-white text-2xl">
                     E-commerce
                 </Link>
                 <div>
                     {user ? (
                         <>
                             <span className="text-white mr-4">{user.email}</span>
-                            <button onClick={handleLogout} className="text-white">
+                            <button onClick={handleLogout} className="text-white cursor-pointer">
                                 Logout
                             </button>
                         </>
                     ) : (
                         <>
-                            <Link to="/login" className="text-white mr-4">
+                            <Link to="/login" className="text-white mr-4 cursor-pointer">
                                 Login
                             </Link>
-                            <Link to="/register" className="text-white">
+                                <Link to="/register" className="text-white cursor-pointer">
                                 Register
                             </Link>
                         </>

@@ -21,8 +21,8 @@ const Login = () => {
                 // 🔹 Salva o token e o email do usuário no localStorage
                 setAuthToken(response.data.access_token, { email });
 
-                // 🔹 Redireciona para a página inicial ou dashboard
-                navigate('/');
+                // 🔹 Redireciona para a página de listagem de produtos
+                navigate('/products');
             } else {
                 setError('Erro ao obter token. Tente novamente.');
             }
@@ -54,7 +54,7 @@ const Login = () => {
                         className="border p-2 w-full"
                     />
                 </div>
-                <button type="submit" className="bg-blue-500 text-white p-2 w-full">
+                <button type="submit" className="bg-blue-500 text-white p-2 w-full cursor-pointer">
                     Login
                 </button>
             </form>
