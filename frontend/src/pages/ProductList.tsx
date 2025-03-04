@@ -114,7 +114,7 @@ const ProductList = () => {
 
 
             {/* CONTROLES DE PAGINAÇÃO */}
-            {meta && (
+            {meta && products.length > 0 && (
                 <div className="flex justify-center mt-6">
                     <button
                         className={`px-4 py-2 mr-2 border rounded ${links?.prev ? "bg-gray-200 cursor-pointer" : "bg-gray-100 cursor-not-allowed"}`}
