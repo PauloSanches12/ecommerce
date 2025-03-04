@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\AuthRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthService
 {
-    protected $userRepository;
+    protected $authRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(AuthRepositoryInterface $authRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->authRepository = $authRepository;
     }
 
     /**
@@ -27,7 +27,7 @@ class AuthService
         try {
             $data['password'] = Hash::make($data['password']);
 
-            return $this->userRepository->create($data);
+            return $this->authRepository->create($data);
         } catch (\Exception $e) {
             throw new \Exception('Erro ao registrar o usuário: ' . $e->getMessage());
         }
@@ -43,7 +43,7 @@ class AuthService
     public function login(array $data): string|bool
     {
         try {
-            $user = $this->userRepository->findByEmail($data['email']);
+            $user = $this->authRepository->findByEmail($data['email']);
 
             if (! $user || ! Hash::check($data['password'], $user->password)) {
                 return false;

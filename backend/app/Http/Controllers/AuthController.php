@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\LoginUserRequest;
 use App\Services\AuthService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,51 +24,38 @@ class AuthController extends Controller
      * @param  \App\Http\Requests\RegisterUserRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(RegisterUserRequest $request)
+    public function register(RegisterUserRequest $request): JsonResponse
     {
-        try {
-            $user = $this->authService->register($request->validated());
-            return response()->json(['message' => 'Usuário registrado com sucesso', 'user' => $user], Response::HTTP_CREATED);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $user = $this->authService->register($request->validated());
+        return response()->json(['message' => 'Usuário registrado com sucesso', 'user' => $user], Response::HTTP_CREATED);
     }
 
     /**
      * Login a user.
      *
-     * @param  \App\Http\Requests\LoginUserRequest  $request
+     * @param LoginUserRequest $request
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(LoginUserRequest $request)
+    public function login(LoginUserRequest $request): JsonResponse
     {
-        try {
-            $token = $this->authService->login($request->validated());
-            
-            if (!$token) {
-                return response()->json(['message' => 'Credenciais inválidas'], Response::HTTP_UNAUTHORIZED);
-            }
-
-            return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        $token = $this->authService->login($request->validated());
+        
+        if (!$token) {
+            return response()->json(['message' => 'Credenciais inválidas'], Response::HTTP_UNAUTHORIZED);
         }
+
+        return response()->json(['access_token' => $token, 'token_type' => 'Bearer'], Response::HTTP_OK);
     }
 
     /**
      * Logout the user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @return void
      */
-    public function logout(Request $request)
+    public function logout(Request $request): void
     {
-        try {
-            $this->authService->logout($request->user());
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $this->authService->logout($request->user());
     }
 
     /**
@@ -76,12 +64,8 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getUser(Request $request)
+    public function getUser(Request $request): JsonResponse
     {
-        try {
-            return response()->json($request->user(), Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return response()->json($request->user(), Response::HTTP_OK);
     }
 }

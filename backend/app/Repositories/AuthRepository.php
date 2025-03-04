@@ -2,10 +2,10 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\AuthRepositoryInterface;
 use App\Models\User;
 
-class UserRepository implements UserRepositoryInterface
+class AuthRepository implements AuthRepositoryInterface
 {
     /**
      * Create a new user.
