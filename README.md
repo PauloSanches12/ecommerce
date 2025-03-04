@@ -68,7 +68,7 @@ Após seguir os passos acima, você pode acessar a aplicação em `http://localh
 
 ## Rotas da Aplicação Backend
 
-Todas as rotas precisam ter no Headers o `Accept: application/json`.
+### Todas as rotas precisam ter no `Headers` o `Accept: application/json`.
 
 ### Tabela de Rotas
 
