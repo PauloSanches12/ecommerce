@@ -4,6 +4,7 @@ import api from "../services/axiosClient";
 import { Product, Category } from "../interfaces/product";
 import { Meta, PaginationLinks } from "../interfaces/pagination";
 import Pagination from "../components/Pagination";
+import SearchBar from "../components/SearchBar";
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -54,15 +55,7 @@ const ProductList = () => {
         <div className="container mx-auto p-4">
             
             {/* CAMPO DE PESQUISA */}
-            <div className="mb-4">
-                <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Pesquisar produto por nome ou descrição..."
-                    className="border p-2 w-full rounded"
-                />
-            </div>
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
             {/* FILTRO POR CATEGORIA + BOTÃO DE NOVO PRODUTO */}
             <div className="mb-4 flex justify-between items-center">
