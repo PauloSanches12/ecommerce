@@ -22,39 +22,34 @@ class CategoryController extends Controller
     /**
      * Get all categories
      * 
-     * @return CategoryCollection|JsonResponse
+     * @return CategoryCollection
      */
-    public function index(): CategoryCollection | JsonResponse
+    public function index(): CategoryCollection
     {
-        try {
-            $categories = $this->categoryService->getAllCategories();
-            return new CategoryCollection($categories);
-        } catch (\Exception $e) {
-            error_log('Erro ao buscar categorias: ' . $e);
-            return response()->json(['error' => 'Erro ao buscar categorias.'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $categories = $this->categoryService->getAllCategories();
+
+        return new CategoryCollection($categories);
     }
 
     /**
      * Create a category
      * 
-     * @return CategoryResource|JsonResponse
+     * @param CategoryRequest $request
+     * @return CategoryResource
      */
-    public function store(CategoryRequest $request): CategoryResource|JsonResponse
+    public function store(CategoryRequest $request): CategoryResource
     {
-        try {
-            $request->validated();
-            $category = $this->categoryService->createCategory($request);
-            return new CategoryResource($category);
-        } catch (\Exception $e) {
-            error_log('Erro ao criar a categoria: ' . $e);
-            return response()->json(['error' => 'Erro ao criar a categoria.'], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        $request->validated();
+        $category = $this->categoryService->createCategory($request);
+
+        return new CategoryResource($category);
     }
 
     /**
      * Update a category
      * 
+     * @param CategoryRequest $request
+     * @param int $id
      * @return CategoryResource|JsonResponse
      */
     public function update(CategoryRequest $request, int $id): CategoryResource|JsonResponse
@@ -65,15 +60,13 @@ class CategoryController extends Controller
             return new CategoryResource($category);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
-        } catch (\Exception $e) {
-            error_log('Erro ao atualizar a categoria: ' . $e);
-            return response()->json(['error' => 'Erro ao atualizar a categoria.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
      * Delete a category
      *
+     * @param int $id
      * @return JsonResponse
      */
     public function destroy(int $id): JsonResponse
@@ -88,8 +81,6 @@ class CategoryController extends Controller
             return response()->json(null, Response::HTTP_NO_CONTENT);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Erro ao excluir a categoria.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

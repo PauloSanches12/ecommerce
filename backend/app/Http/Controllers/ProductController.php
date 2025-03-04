@@ -50,7 +50,6 @@ class ProductController extends Controller
     public function show(int $id): ProductResource|JsonResponse
     {
         try {
-            throw new \Exception('Erro');
             return new ProductResource($this->productService->getProductById($id));
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Produto não encontrado'], Response::HTTP_NOT_FOUND);
