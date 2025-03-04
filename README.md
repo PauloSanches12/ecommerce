@@ -61,6 +61,8 @@ Antes de iniciar, certifique-se de ter o Docker e o Docker Compose instalados em
     ```bash
     php artisan migrate
     ```
+10. Adicionar no `Headers`  
+
 ## Passo a passo para rodar o frontend
 
 1. Navegue até o diretório do frontend:
@@ -84,7 +86,7 @@ Após seguir os passos acima, você pode acessar a aplicação em `http://localh
 
 ## Rotas da Aplicação Backend
 
-### Todas as rotas precisam ter no `Headers` o `Accept: application/json`.
+### Todas as rotas com exceção de `/api/login` e `/api/register` ao serem acessadas pelo insomnia/postman precisam ter no `Headers` o `Authorization Bearer Token` gerado ao realizar o login em `/api/login`. Todas as rotas precisam do `Accept: application/json` no `Headers`.
 
 ### Tabela de Rotas
 
