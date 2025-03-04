@@ -20,6 +20,6 @@ class ValidationHelper
     {
         throw new HttpResponseException(response()->json([
             'errors' => $validator->errors()
-        ],  Response::HTTP_UNPROCESSABLE_ENTITY));
+        ],  Response::HTTP_NOT_FOUND));
     }
 }

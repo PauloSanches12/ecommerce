@@ -76,7 +76,7 @@ const EditProduct = () => {
                 setErrors({ general: 'Erro ao editar produto. Tente novamente.' });
             }
         } catch (error: any) {
-            if (error.response && error.response.status === 422) {
+            if (error.response && error.response.status === 404) {
                 setErrors({ categoryId: 'ID da Categoria não existe.' });
             } else {
                 setErrors({ general: 'Ocorreu um erro ao editar o produto.' });
