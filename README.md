@@ -26,7 +26,7 @@ Antes de iniciar, certifique-se de ter o Docker e o Docker Compose instalados em
     cd backend
     ```
 
-4. Copie o arquivo de exemplo `.env` para criar seu próprio arquivo `.env`:
+4. Copie o arquivo de exemplo `.env.example` para criar seu próprio arquivo `.env`:
 
     ```bash
     cp .env.example .env
