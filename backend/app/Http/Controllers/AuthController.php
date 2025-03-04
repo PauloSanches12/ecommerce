@@ -69,4 +69,19 @@ class AuthController extends Controller
             return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    /**
+     * Get the authenticated user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUser(Request $request)
+    {
+        try {
+            return response()->json($request->user(), Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

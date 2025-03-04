@@ -29,7 +29,7 @@ class CategoryController extends Controller
             $categories = $this->categoryService->getAllCategories();
             return new CategoryCollection($categories);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -47,7 +47,7 @@ class CategoryController extends Controller
             $category = $this->categoryService->createCategory($request);
             return new CategoryResource($category);
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -65,7 +65,7 @@ class CategoryController extends Controller
 
             $category = $this->categoryService->updateCategory($request, $id);
             if (!$category) {
-                return response()->json(['error' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
             }
 
             return new CategoryResource($category);
@@ -85,7 +85,7 @@ class CategoryController extends Controller
         try {
             $deleted = $this->categoryService->deleteCategory($id);
             if (!$deleted) {
-                return response()->json(['error' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
             }
 
             return response()->json(null, Response::HTTP_NO_CONTENT);

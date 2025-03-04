@@ -101,7 +101,7 @@ class ProductController extends Controller
 
             $product = $this->productService->updateProduct($request, $id);
             if (!$product) {
-                return response()->json(['error' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
             }
 
             return new ProductResource($product);
@@ -121,7 +121,7 @@ class ProductController extends Controller
         try {
             $deleted = $this->productService->deleteProduct($id);
             if (!$deleted) {
-                return response()->json(['error' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
+                return response()->json(['message' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
             }
 
             return response()->json(null, Response::HTTP_NO_CONTENT);
