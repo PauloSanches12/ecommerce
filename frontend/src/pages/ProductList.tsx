@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../services/axiosClient";
 import { Product, Category } from "../interfaces/product";
 import { Meta, PaginationLinks } from "../interfaces/pagination";
+import Pagination from "../components/Pagination";
 
 const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -113,25 +114,13 @@ const ProductList = () => {
 
             {/* PAGINAÇÃO */}
             {meta && products.length > 0 && (
-                <div className="flex justify-center mt-6">
-                    <button
-                        className={`px-4 py-2 mr-2 border rounded ${links?.prev ? "bg-gray-200 cursor-pointer" : "bg-gray-100 cursor-not-allowed"}`}
-                        disabled={!links?.prev}
-                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                    >
-                        Anterior
-                    </button>
-                    <span className="px-4 py-2 border rounded bg-gray-300">
-                        Página {meta.current_page} de {meta.last_page}
-                    </span>
-                    <button
-                        className={`px-4 py-2 ml-2 border rounded ${links?.next ? "bg-gray-200 cursor-pointer" : "bg-gray-100 cursor-not-allowed"}`}
-                        disabled={!links?.next}
-                        onClick={() => setCurrentPage((prev) => prev + 1)}
-                    >
-                        Próxima
-                    </button>
-                </div>
+                <Pagination
+                    currentPage={meta.current_page}
+                    lastPage={meta.last_page}
+                    onPageChange={setCurrentPage}
+                    hasPrevPage={!!links?.prev}
+                    hasNextPage={!!links?.next}
+                />
             )}
         </div>
     );
