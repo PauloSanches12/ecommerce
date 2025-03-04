@@ -61,8 +61,30 @@ Antes de iniciar, certifique-se de ter o Docker e o Docker Compose instalados em
     ```bash
     php artisan migrate
     ```
+## Passo a passo para rodar o frontend
 
-## Acessando a Aplicação
+1. Navegue até o diretório do frontend:
+
+    ```bash
+    cd ecommerce
+    cd frontend
+    ```
+
+2. Instale as dependências do npm:
+
+    ```bash
+    npm install
+    ```
+
+3. Construa e inicie os contêineres do Docker:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+4. Acesse a aplicação frontend em `http://localhost:5173`.
+
+## Acessando a Aplicação Backend
 
 Após seguir os passos acima, você pode acessar a aplicação em `http://localhost:8000`.
 
