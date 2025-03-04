@@ -1,6 +1,5 @@
 version: '3.7'
 services:
-  # App Service
   app:
     build:
       context: .
@@ -16,7 +15,6 @@ services:
     depends_on:
       - mysql
 
-  # Nginx Service
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -31,7 +29,6 @@ services:
     depends_on:
       - app
 
-  # MySQL Service
   mysql:
     image: mysql:8.0
     container_name: mysql
@@ -46,12 +43,10 @@ services:
     networks:
       - laravel
 
-# Networks
 networks:
   laravel:
     driver: bridge
 
-# Volumes
 volumes:
   mysql_data:
     driver: local
