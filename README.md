@@ -70,81 +70,22 @@ Após seguir os passos acima, você pode acessar a aplicação em `http://localh
 
 Todas as rotas precisam ter no Headers o `Accept: application/json`.
 
-### 1. Registro de Usuário
+### Tabela de Rotas
 
-- **Método**: POST
-- **URL**: /api/register
-- **Body**:
-    
-    ```json
-    {
-      "name": "John Doe",
-      "email": "johndoe@example.com",
-      "password": "password123",
-      "password_confirmation": "password123"
-    }
-    ```
-
-### 2. Login de Usuário
-
-- **Método**: POST
-- **URL**: /api/login
-- **Body**:
-    
-    ```json
-    {
-      "email": "johndoe@example.com",
-      "password": "password123"
-    }
-    ```
-    
-- **Resposta Esperada**:
-    
-    ```json
-    {
-      "access_token": "token_string",
-      "token_type": "Bearer"
-    }
-    ```
-
-### 3. Obter Dados do Usuário Logado
-
-- **Método**: GET
-- **URL**: /api/user
-- **Headers**:
-    
-    ```
-    Authorization: Bearer token_string
-    ```
-
-### 4. Logout do Usuário
-
-- **Método**: POST
-- **URL**: /api/logout
-- **Headers**:
-    
-    ```
-    Authorization: Bearer token_string
-    ```
-
-### 5. Acesso a Endpoints Protegidos (Produtos e Categorias)
-
-#### Listar Produtos
-
-- **Método**: GET
-- **URL**: /api/products
-- **Headers**:
-    
-    ```
-    Authorization: Bearer token_string
-    ```
-
-#### Listar Categorias
-
-- **Método**: GET
-- **URL**: /api/categories
-- **Headers**:
-    
-    ```
-    Authorization: Bearer token_string
-    ```
+| Rotas                              | Método | Descrição                                |
+|-----------------------------------|--------|------------------------------------------|
+| `/api/register`                   | POST   | Registrar um Usuário                     |
+| `/api/login`                      | POST   | Login de Usuário                         |
+| `/api/user`                       | GET    | Obter Dados do Usuário Logado            |
+| `/api/logout`                     | POST   | Logout do Usuário                        |
+| `/api/products`                   | GET    | Listar Produtos                          |
+| `/api/products/{id}`              | GET    | Listar detalhes de um Produto            |
+| `/api/products`                   | POST   | Criar Produto                            |
+| `/api/products/{id}`              | PUT    | Atualizar Produto                        |
+| `/api/products/{id}`              | DELETE | Excluir Produto                          |
+| `/api/products?category={id}`     | GET    | Listar Produtos por Categoria            |
+| `/api/products?search={query}`    | GET    | Listar Produtos por Nome ou Descrição    |
+| `/api/categories`                 | GET    | Listar todas as Categorias               |
+| `/api/categories`                 | POST   | Criar uma Categoria                      |
+| `/api/categories/{id}`            | PUT    | Atualizar uma Categoria                  |
+| `/api/categories/{id}`            | DELETE | Excluir uma Categoria                    |
