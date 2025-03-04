@@ -21,4 +21,14 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Check if the category has products.
+     *
+     * @return bool
+     */
+    public function hasProducts(): bool
+    {
+        return $this->products()->exists();
+    }
 }

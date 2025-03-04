@@ -76,4 +76,19 @@ class CategoryService
             throw $e;
         }
     }
+
+    /**
+     * Check if a category has products
+     *
+     * @param integer $id
+     * @return boolean
+     */
+    public function hasProducts(int $id): bool
+    {
+        try {
+            return $this->categoryRepository->hasProducts($id);
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 }

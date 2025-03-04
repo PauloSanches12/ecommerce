@@ -36,4 +36,13 @@ class CategoryRepository implements CategoryRepositoryInterface
         }
         return false;
     }
+
+    public function hasProducts($id): bool
+    {
+        $category = Category::find($id);
+        if ($category) {
+            return $category->hasProducts();
+        }
+        return false;
+    }
 }

@@ -83,6 +83,12 @@ class CategoryController extends Controller
     public function destroy(int $id): JsonResponse
     {
         try {
+            
+            $hasProducts = $this->categoryService->hasProducts($id);
+            if ($hasProducts) {
+                return response()->json(['message' => 'Categoria não pode ser excluída, pois possui produtos associados.'], Response::HTTP_CONFLICT);
+            }
+
             $deleted = $this->categoryService->deleteCategory($id);
             if (!$deleted) {
                 return response()->json(['message' => 'Categoria não encontrada.'], Response::HTTP_NOT_FOUND);
