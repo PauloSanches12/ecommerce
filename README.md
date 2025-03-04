@@ -65,3 +65,86 @@ Antes de iniciar, certifique-se de ter o Docker e o Docker Compose instalados em
 ## Acessando a Aplicação
 
 Após seguir os passos acima, você pode acessar a aplicação em `http://localhost:8000`.
+
+## Rotas da Aplicação Backend
+
+Todas as rotas precisam ter no Headers o `Accept: application/json`.
+
+### 1. Registro de Usuário
+
+- **Método**: POST
+- **URL**: /api/register
+- **Body**:
+    
+    ```json
+    {
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "password": "password123",
+      "password_confirmation": "password123"
+    }
+    ```
+
+### 2. Login de Usuário
+
+- **Método**: POST
+- **URL**: /api/login
+- **Body**:
+    
+    ```json
+    {
+      "email": "johndoe@example.com",
+      "password": "password123"
+    }
+    ```
+    
+- **Resposta Esperada**:
+    
+    ```json
+    {
+      "access_token": "token_string",
+      "token_type": "Bearer"
+    }
+    ```
+
+### 3. Obter Dados do Usuário Logado
+
+- **Método**: GET
+- **URL**: /api/user
+- **Headers**:
+    
+    ```
+    Authorization: Bearer token_string
+    ```
+
+### 4. Logout do Usuário
+
+- **Método**: POST
+- **URL**: /api/logout
+- **Headers**:
+    
+    ```
+    Authorization: Bearer token_string
+    ```
+
+### 5. Acesso a Endpoints Protegidos (Produtos e Categorias)
+
+#### Listar Produtos
+
+- **Método**: GET
+- **URL**: /api/products
+- **Headers**:
+    
+    ```
+    Authorization: Bearer token_string
+    ```
+
+#### Listar Categorias
+
+- **Método**: GET
+- **URL**: /api/categories
+- **Headers**:
+    
+    ```
+    Authorization: Bearer token_string
+    ```
