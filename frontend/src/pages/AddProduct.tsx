@@ -10,16 +10,29 @@ const AddProduct = () => {
     const [price, setPrice] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [categoryId, setCategoryId] = useState('');
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState<{ name?: string, description?: string, price?: string, imageUrl?: string, categoryId?: string, general?: string }>({});
     const navigate = useNavigate();
     const { authToken } = useContext(AuthContext);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setError('');
+        setErrors({});
+
+        const newErrors: { name?: string, description?: string, price?: string, imageUrl?: string, categoryId?: string, general?: string } = {};
+
+        if (!name) newErrors.name = 'Nome é obrigatório.';
+        if (!description) newErrors.description = 'Descrição é obrigatória.';
+        if (!price) newErrors.price = 'Preço é obrigatório.';
+        if (!imageUrl) newErrors.imageUrl = 'URL da Imagem é obrigatória.';
+        if (!categoryId) newErrors.categoryId = 'ID da Categoria é obrigatório.';
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
+        }
 
         if (!authToken) {
-            setError('Você precisa estar logado para adicionar um produto.');
+            setErrors({ general: 'Você precisa estar logado para adicionar um produto.' });
             return;
         }
 
@@ -34,11 +47,17 @@ const AddProduct = () => {
 
             if (response.status === 201) {
                 navigate('/products');
-            } else {
-                setError('Erro ao adicionar produto. Tente novamente.');
+                return;
             }
-        } catch (error) {
-            setError('Erro ao adicionar produto. Verifique os dados e tente novamente.');
+
+            setErrors({ general: 'Erro ao adicionar produto. Tente novamente.' });
+        } catch (error: any) {
+            if (error.response && error.response.status === 404) {
+                setErrors({ categoryId: 'ID da Categoria não existe.' });
+                return;
+            }
+            
+            setErrors({ general: 'Ocorreu um erro ao adicionar produto.' });
         }
     };
 
@@ -54,7 +73,7 @@ const AddProduct = () => {
                 </Link>
             </div>
             <h1 className="text-2xl mb-4">Adicionar Produto</h1>
-            {error && <p className="text-red-500">{error}</p>}
+            {errors.general && <p className="text-red-500">{errors.general}</p>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block mb-2">Nome</label>
@@ -65,6 +84,7 @@ const AddProduct = () => {
                         className="border p-2 w-full"
                         required
                     />
+                    {errors.name && <p className="text-red-500">{errors.name}</p>}
                 </div>
                 <div className="mb-4">
                     <label className="block mb-2">Descrição</label>
@@ -75,6 +95,7 @@ const AddProduct = () => {
                         className="border p-2 w-full"
                         required
                     />
+                    {errors.description && <p className="text-red-500">{errors.description}</p>}
                 </div>
                 <div className="mb-4">
                     <label className="block mb-2">Preço</label>
@@ -87,6 +108,7 @@ const AddProduct = () => {
                         min={0}
                         required
                     />
+                    {errors.price && <p className="text-red-500">{errors.price}</p>}
                 </div>
                 <div className="mb-4">
                     <label className="block mb-2">URL da Imagem</label>
@@ -97,6 +119,7 @@ const AddProduct = () => {
                         className="border p-2 w-full"
                         required
                     />
+                    {errors.imageUrl && <p className="text-red-500">{errors.imageUrl}</p>}
                 </div>
                 <div className="mb-4">
                     <label className="block mb-2">ID da Categoria</label>
@@ -107,6 +130,7 @@ const AddProduct = () => {
                         className="border p-2 w-full"
                         required
                     />
+                    {errors.categoryId && <p className="text-red-500">{errors.categoryId}</p>}
                 </div>
                 <Button type="submit" className="bg-blue-500 text-white p-2 w-full cursor-pointer">
                     Cadastrar Produto
