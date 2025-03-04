@@ -17,32 +17,22 @@ class ProductService
 
     /**
      * Get all products
-     *
-     * @param integer $perPage
      * @return LengthAwarePaginator
      */
     public function getAllProducts(int $perPage): LengthAwarePaginator
     {
-        try {
-            return $this->productRepository->paginate($perPage);
-        } catch (\Exception $e) {
-            return new LengthAwarePaginator([], 0, $perPage);
-        }
+        return $this->productRepository->paginate($perPage);
     }
 
     /**
      * Get a product by id
      *
      * @param integer $id
-     * @return object|null
+     * @return object
      */
-    public function getProductById(int $id): ?object
+    public function getProductById(int $id): object
     {
-        try {
-            return $this->productRepository->findById($id);
-        } catch (\Exception $e) {
-            return null;
-        }
+        return $this->productRepository->findById($id);
     }
 
     /**
@@ -54,11 +44,7 @@ class ProductService
      */
     public function getProductsByCategory(int $categoryId, int $perPage): LengthAwarePaginator
     {
-        try {
-            return $this->productRepository->findByCategory($categoryId, $perPage);
-        } catch (\Exception $e) {
-            return new LengthAwarePaginator([], 0, $perPage);
-        }
+        return $this->productRepository->findByCategory($categoryId, $perPage);
     }
 
     /**
@@ -70,27 +56,18 @@ class ProductService
      */
     public function searchProducts(string $query, int $perPage): LengthAwarePaginator
     {
-        try {
-            return $this->productRepository->search($query, $perPage);
-        } catch (\Exception $e) {
-            return new LengthAwarePaginator([], 0, $perPage);
-        }
+        return $this->productRepository->search($query, $perPage);
     }
 
     /**
      * Create a product
      *
      * @param Request $request
-     * @return object|null
+     * @return object
      */
-    public function createProduct(Request $request): ?object
+    public function createProduct(Request $request): object
     {
-        $data = $request->only(['name', 'description', 'image_url', 'price', 'category_id']);
-        try {
-            return $this->productRepository->create($data);
-        } catch (\Exception $e) {
-            return null;
-        }
+        return $this->productRepository->create($request->all());
     }
 
     /**
@@ -98,30 +75,21 @@ class ProductService
      *
      * @param Request $request
      * @param integer $id
-     * @return object|null
+     * @return object
      */
-    public function updateProduct(Request $request, int $id): ?object
+    public function updateProduct(Request $request, int $id): object
     {
-        $data = $request->only(['name', 'description', 'price', 'image_url', 'category_id']);
-        try {
-            return $this->productRepository->update($data, $id);
-        } catch (\Exception $e) {
-            return null;
-        }
+        return $this->productRepository->update($request->all(), $id);
     }
 
     /**
      * Delete a product
      *
      * @param integer $id
-     * @return boolean
+     * @return bool
      */
     public function deleteProduct(int $id): bool
     {
-        try {
-            return $this->productRepository->delete($id);
-        } catch (\Exception $e) {
-            return false;
-        }
+        return $this->productRepository->delete($id);
     }
 }

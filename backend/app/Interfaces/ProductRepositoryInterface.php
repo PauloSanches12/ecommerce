@@ -2,7 +2,6 @@
 
 namespace App\Interfaces;
 
-use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface ProductRepositoryInterface

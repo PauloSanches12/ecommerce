@@ -6,6 +6,7 @@ use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductCollection;
 use App\Services\ProductService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
@@ -27,28 +28,21 @@ class ProductController extends Controller
      */
     public function index(Request $request): ProductCollection|JsonResponse
     {
-        try {
-            $perPage = 12;
+        $perPage = 12;
 
-            if ($request->has('category')) {
-                $products = $this->productService->getProductsByCategory($request->category, $perPage);
-                return new ProductCollection($products);
-            }
-
-            if ($request->has('search')) {
-                $products = $this->productService->searchProducts($request->search, $perPage);
-                return new ProductCollection($products);
-            }
-
-            $products = $this->productService->getAllProducts($perPage);
-            return new ProductCollection($products);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        if ($request->has('category')) {
+            return new ProductCollection($this->productService->getProductsByCategory($request->category, $perPage));
         }
+
+        if ($request->has('search')) {
+            return new ProductCollection($this->productService->searchProducts($request->search, $perPage));
+        }
+
+        return new ProductCollection($this->productService->getAllProducts($perPage));
     }
 
     /**
-     * Get a product by id 
+     * Get a product by id
      * 
      * @param int $id
      * @return ProductResource|JsonResponse
@@ -56,15 +50,10 @@ class ProductController extends Controller
     public function show(int $id): ProductResource|JsonResponse
     {
         try {
-            $product = $this->productService->getProductById($id);
-
-            if (!$product) {
-                return response()->json(['message' => 'Produto não encontrado'], Response::HTTP_NOT_FOUND);
-            }
-
-            return new ProductResource($product);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            throw new \Exception('Erro');
+            return new ProductResource($this->productService->getProductById($id));
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado'], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -72,19 +61,11 @@ class ProductController extends Controller
      * Create a product
      * 
      * @param ProductRequest $request
-     * @return ProductResource|JsonResponse
+     * @return ProductResource
      */
-    public function store(ProductRequest $request): ProductResource|JsonResponse
+    public function store(ProductRequest $request): ProductResource
     {
-        try {
-            $request->validated();
-
-            $product = $this->productService->createProduct($request);
-
-            return new ProductResource($product);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return new ProductResource($this->productService->createProduct($request));
     }
 
     /**
@@ -97,16 +78,9 @@ class ProductController extends Controller
     public function update(ProductRequest $request, int $id): ProductResource|JsonResponse
     {
         try {
-            $request->validated();
-
-            $product = $this->productService->updateProduct($request, $id);
-            if (!$product) {
-                return response()->json(['message' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
-            }
-
-            return new ProductResource($product);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new ProductResource($this->productService->updateProduct($request, $id));
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
         }
     }
 
@@ -118,15 +92,10 @@ class ProductController extends Controller
      */
     public function destroy(int $id): JsonResponse
     {
-        try {
-            $deleted = $this->productService->deleteProduct($id);
-            if (!$deleted) {
-                return response()->json(['message' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
-            }
-
+        if ($this->productService->deleteProduct($id)) {
             return response()->json(null, Response::HTTP_NO_CONTENT);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        return response()->json(['message' => 'Produto não encontrado.'], Response::HTTP_NOT_FOUND);
     }
 }

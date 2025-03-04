@@ -8,50 +8,50 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function paginate(int $perPage): LengthAwarePaginator
+    protected function getQuery()
     {
-        return Product::with('category')->paginate($perPage);
+        return Product::with('category');
     }
 
-    public function findById(int $id): ?object
+    public function paginate(int $perPage): LengthAwarePaginator
     {
-        return Product::with('category')->find($id);
+        return $this->getQuery()->paginate($perPage);
+    }
+
+    public function findById(int $id): Product
+    {
+        return $this->getQuery()->findOrFail($id);
     }
 
     public function findByCategory(int $categoryId, int $perPage): LengthAwarePaginator
     {
-        return Product::where('category_id', $categoryId)->with('category')->paginate($perPage);
+        return $this->getQuery()
+            ->where('category_id', $categoryId)
+            ->paginate($perPage);
     }
 
     public function search(string $query, int $perPage): LengthAwarePaginator
     {
-        return Product::where('name', 'like', '%' . $query . '%')
+        return $this->getQuery()
+            ->where('name', 'like', '%' . $query . '%')
             ->orWhere('description', 'like', '%' . $query . '%')
-            ->with('category')
             ->paginate($perPage);
     }
 
-    public function create(array $data): object
+    public function create(array $data): Product
     {
         return Product::create($data);
     }
 
-    public function update(array $data, int $id): ?object
+    public function update(array $data, int $id): Product
     {
-        $product = Product::find($id);
-        if ($product) {
-            $product->update($data);
-            return $product;
-        }
-        return null;
+        $product = $this->findById($id);
+        $product->update($data);
+        return $product;
     }
 
     public function delete(int $id): bool
     {
-        $product = Product::find($id);
-        if ($product) {
-            return $product->delete();
-        }
-        return false;
+        return (bool) Product::destroy($id);
     }
 }

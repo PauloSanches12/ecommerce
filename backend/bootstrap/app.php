@@ -19,4 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (AuthenticationException $e, $request) {
             return response()->json(['message' => 'Não Autorizado'], 401);
         });
+
+        $exceptions->render(function (Throwable $e, $request) {
+            error_log('Error: ' . $e->getMessage() . ' em ' . $e->getFile() . ':' . $e->getLine());
+            return response()->json(['error' => 'Erro interno do servidor'], 500);
+        });
     })->create();
