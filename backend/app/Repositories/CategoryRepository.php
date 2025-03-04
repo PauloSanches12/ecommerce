@@ -13,36 +13,32 @@ class CategoryRepository implements CategoryRepositoryInterface
         return Category::all();
     }
 
-    public function create(array $data): object
+    public function create(array $data): Category
     {
         return Category::create($data);
     }
 
-    public function update(array $data, int $id): ?object
+    public function update(array $data, int $id): ?Category
     {
-        $category = Category::find($id);
-        if ($category) {
-            $category->update($data);
-            return $category;
-        }
-        return null;
+        $category = $this->findCategoryOrFail($id);
+        $category->update($data);
+        return $category;
     }
 
     public function delete(int $id): bool
     {
-        $category = Category::find($id);
-        if ($category) {
-            return $category->delete();
-        }
-        return false;
+        $category = $this->findCategoryOrFail($id);
+        return $category->delete();
     }
 
-    public function hasProducts($id): bool
+    public function hasProducts(int $id): bool
     {
-        $category = Category::find($id);
-        if ($category) {
-            return $category->hasProducts();
-        }
-        return false;
+        $category = $this->findCategoryOrFail($id);
+        return $category->products()->exists();
+    }
+
+    private function findCategoryOrFail(int $id): ?Category
+    {
+        return Category::findOrFail($id);
     }
 }
