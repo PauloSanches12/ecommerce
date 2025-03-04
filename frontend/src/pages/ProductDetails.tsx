@@ -34,12 +34,13 @@ const ProductDetails = () => {
             if (response.status === 204) {
                 // Produto excluído com sucesso, redireciona para a lista de produtos
                 navigate('/products');
-            } else {
-                setError('Erro ao excluir o produto. Tente novamente mais tarde.');
+                return;
             }
+
+            setError('Erro ao excluir o produto. Tente novamente mais tarde.');
         } catch (err) {
             console.error('Erro ao excluir produto:', err);
-            setError('Erro ao excluir o produto. Tente novamente mais tarde.');
+            setError('Ocorreu um erro ao excluir o produto.');
         }
     };
 

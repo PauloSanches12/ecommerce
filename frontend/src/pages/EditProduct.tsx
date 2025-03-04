@@ -41,7 +41,7 @@ const EditProduct = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setErrors({}); // Limpa erros anteriores
+        setErrors({});
 
         const newErrors: { name?: string, description?: string, price?: string, imageUrl?: string, categoryId?: string, general?: string } = {};
 
@@ -72,15 +72,17 @@ const EditProduct = () => {
 
             if (response.status === 200) {
                 navigate('/products');
-            } else {
-                setErrors({ general: 'Erro ao editar produto. Tente novamente.' });
+                return;
             }
+
+            setErrors({ general: 'Erro ao editar produto. Tente novamente.' });
         } catch (error: any) {
             if (error.response && error.response.status === 404) {
                 setErrors({ categoryId: 'ID da Categoria não existe.' });
-            } else {
-                setErrors({ general: 'Ocorreu um erro ao editar o produto.' });
+                return;
             }
+            console.error('Erro ao editar produto:', error);
+            setErrors({ general: 'Ocorreu um erro ao editar o produto.' });
         }
     };
 
