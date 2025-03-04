@@ -1,6 +1,6 @@
 # E-commerce
 
-Projeto E-commerce. Utilizando Laravel 12, MySQL, PHP 8.4, Nginx e Docker.
+Projeto E-commerce. Utilizando React, TypeScript, Tailwind CSS, Laravel 12, MySQL, PHP 8.4, Nginx e Docker, autenticação com Laravel Sanctum.
 
 ## Pré-requisitos
 
