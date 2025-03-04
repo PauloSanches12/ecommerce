@@ -16,4 +16,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('products', ProductController::class);
     Route::resource('categories', CategoryController::class);
+
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
