@@ -70,19 +70,13 @@ Antes de iniciar, certifique-se de ter o Docker e o Docker Compose instalados em
     cd frontend
     ```
 
-2. Instale as dependências do npm:
-
-    ```bash
-    npm install
-    ```
-
-3. Construa e inicie os contêineres do Docker:
+2. Construa e inicie o contêiner do Docker:
 
     ```bash
     docker-compose up --build
     ```
 
-4. Acesse a aplicação frontend em `http://localhost:5173`.
+3. Acesse a aplicação frontend em `http://localhost:5173`.
 
 ## Acessando a Aplicação Backend
 
