@@ -13,7 +13,7 @@ const ProductList = () => {
     const [links, setLinks] = useState<PaginationLinks | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
 
-    // 🔹 Função para buscar produtos com filtros
+    // Função para buscar produtos com filtros
     const fetchProducts = () => {
         // Cria um objeto URLSearchParams para enviar os parâmetros de busca
         const params = new URLSearchParams();
@@ -32,7 +32,7 @@ const ProductList = () => {
         });
     };
 
-    // 🔹 Atualiza produtos quando a página ou a pesquisa mudam
+    // Atualiza produtos quando a página ou a pesquisa mudam
     useEffect(() => {
         fetchProducts();
     }, [currentPage, searchQuery, selectedCategory]);
@@ -63,9 +63,8 @@ const ProductList = () => {
                 />
             </div>
 
-            {/* FILTRO POR CATEGORIA + BOTÃO DE ADICIONAR */}
+            {/* FILTRO POR CATEGORIA + BOTÃO DE NOVO PRODUTO */}
             <div className="mb-4 flex justify-between items-center">
-                {/* Seleção de categoria */}
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
@@ -79,7 +78,6 @@ const ProductList = () => {
                     ))}
                 </select>
 
-                {/* Botão para adicionar produto */}
                 <Link
                     to="/add-product"
                     className="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800 m-0"
@@ -113,7 +111,7 @@ const ProductList = () => {
             </div>
 
 
-            {/* CONTROLES DE PAGINAÇÃO */}
+            {/* PAGINAÇÃO */}
             {meta && products.length > 0 && (
                 <div className="flex justify-center mt-6">
                     <button
