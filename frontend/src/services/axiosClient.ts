@@ -8,7 +8,7 @@ const api = axios.create({
     },
 });
 
-// 🔹 Interceptor para adicionar o token automaticamente às requisições
+// Interceptor para adicionar o token automaticamente às requisições
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('authToken'); // Obtém o token salvo no localStorage
@@ -22,7 +22,7 @@ api.interceptors.request.use(
     }
 );
 
-// 🔹 Interceptor para lidar com erros de resposta, como token expirado
+// Interceptor para lidar com erros de resposta, como token expirado
 api.interceptors.response.use(
     (response) => response, // Se a resposta for bem-sucedida, retorna normalmente
     (error) => {

@@ -12,7 +12,7 @@ const Login = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setErrors({}); // Limpa erros anteriores
+        setErrors({});
 
         const newErrors: { email?: string, password?: string, general?: string } = {};
 

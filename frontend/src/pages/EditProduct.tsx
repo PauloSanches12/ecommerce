@@ -91,7 +91,6 @@ const EditProduct = () => {
 
     return (
         <div className="container mx-auto p-4">
-            {/* Botão de Voltar */}
             <div className='mb-6'>
                 <Link
                     to="/products"

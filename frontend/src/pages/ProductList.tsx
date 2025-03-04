@@ -26,7 +26,6 @@ const ProductList = () => {
         if (searchQuery) params.append("search", searchQuery);
         if (selectedCategory) params.append("category_id", selectedCategory);
 
-        // Faz a requisição para a API
         api.get(`/api/products?${params.toString()}`).then((response) => {
             setProducts(response.data.data);
             setMeta(response.data.meta);
@@ -39,7 +38,6 @@ const ProductList = () => {
         fetchProducts();
     }, [currentPage, searchQuery, selectedCategory]);
 
-    // Fetch categorias
     useEffect(() => {
         api.get("/api/categories").then((response) => {
             setCategories(response.data.data);

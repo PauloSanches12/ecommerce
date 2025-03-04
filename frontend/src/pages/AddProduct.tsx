@@ -56,14 +56,13 @@ const AddProduct = () => {
                 setErrors({ categoryId: 'ID da Categoria não existe.' });
                 return;
             }
-            
+
             setErrors({ general: 'Ocorreu um erro ao adicionar produto.' });
         }
     };
 
     return (
         <div className="container mx-auto p-4">
-            {/* Botão de Voltar */}
             <div className='mb-6'>
                 <Link
                     to="/products"

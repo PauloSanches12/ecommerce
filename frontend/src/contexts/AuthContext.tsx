@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    // 🔹 Função para fazer logout
+    // Função para fazer logout
     const logout = async () => {
         try {
             await api.post('/api/logout');
