@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import api from '../services/axiosClient';
 import { Product } from '../interfaces/product';
@@ -7,8 +7,8 @@ import Button from '../components/Button';
 const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<Product | null>(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isPending, startTransition] = useTransition();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,12 +16,12 @@ const ProductDetails = () => {
         const fetchProduct = async () => {
             try {
                 const response = await api.get<{ data: Product }>(`/api/products/${id}`);
-                setProduct(response.data.data);
+                startTransition(() => {
+                    setProduct(response.data.data);
+                });
             } catch (err) {
                 console.error('Erro ao buscar produto:', err);
                 setError('Erro ao carregar o produto. Tente novamente mais tarde.');
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -44,7 +44,7 @@ const ProductDetails = () => {
         }
     };
 
-    if (loading) return <div className="text-gray-500">Carregando...</div>;
+    if (isPending) return <div className="text-gray-500">Carregando...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
     if (!product) return <div className="text-gray-500">Produto não encontrado.</div>;
 
